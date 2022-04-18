@@ -62,6 +62,11 @@ view: dialogflow_cleaned_logs {
     sql: ${TABLE}.query_text ;;
   }
 
+  measure: Total_query_text {
+    type: sum
+    sql: ${query_text} ;;
+  }
+
   dimension: query_text_redacted {
     type: string
     sql: ${TABLE}.query_text_redacted ;;
