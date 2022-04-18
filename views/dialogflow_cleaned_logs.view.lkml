@@ -64,7 +64,7 @@ view: dialogflow_cleaned_logs {
 
   measure: Total_query_text {
     type: sum
-    sql: ${query_text} ;;
+    sql: ${session_id} ;;
   }
 
   dimension: query_text_redacted {
