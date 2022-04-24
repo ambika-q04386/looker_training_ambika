@@ -37,6 +37,8 @@ view: dialogflow_cleaned_logs {
     sql: ${TABLE}.isFallback ;;
   }
 
+
+
   dimension: language_code {
     type: string
     sql: ${TABLE}.language_code ;;
@@ -62,10 +64,7 @@ view: dialogflow_cleaned_logs {
     sql: ${TABLE}.query_text ;;
   }
 
-  measure: Total_query_text {
-    type: sum
-    sql: ${session_id} ;;
-  }
+
 
   dimension: query_text_redacted {
     type: string
