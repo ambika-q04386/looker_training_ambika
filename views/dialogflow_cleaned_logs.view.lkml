@@ -1,5 +1,5 @@
 view: dialogflow_cleaned_logs {
-  sql_table_name: `looker_training.dialogflow_cleaned_logs`
+  sql_table_name: `looker_training_ambika.dialogflow_cleaned_logs`
     ;;
 
   dimension: action {
@@ -37,7 +37,15 @@ view: dialogflow_cleaned_logs {
     sql: ${TABLE}.isFallback ;;
   }
 
+  measure: Handled {
+    type: count
+    filters: [is_fallback: "No"]
+  }
+  measure: Success_rate {
+    type: number
+    sql: ${Handled}/ ${Total_queries} ;;
 
+  }
 
   dimension: language_code {
     type: string
@@ -81,6 +89,13 @@ view: dialogflow_cleaned_logs {
     sql: ${TABLE}.sentiment_score ;;
   }
 
+  dimension: Query_sentiment_distribution {
+    sql: CASE WHEN ${magnitude} <= 3 and ${sentiment_score} between 0.25 and 1 THEN 'Partially Positive'
+               WHEN ${magnitude} <= 3 and ${sentiment_score} between -1 and -0.25 THEN 'Partially Negative'
+              WHEN ${magnitude} <= 3 and ${sentiment_score} between -1 and 1 THEN 'Neutral'
+              ELSE NULL END;;
+
+  }
   dimension: session_id {
     type: string
     sql: ${TABLE}.session_ID ;;
@@ -90,7 +105,10 @@ view: dialogflow_cleaned_logs {
     type: string
     sql: ${TABLE}.time ;;
   }
-
+  dimension: duration {
+    type: number
+    sql: timestamp_diff(${TABLE}.max_time_stamp,${TABLE}.min_time_stamp,minute) ;;
+  }
   dimension_group: time_stamp {
     type: time
     timeframes: [
@@ -113,5 +131,13 @@ view: dialogflow_cleaned_logs {
   measure: count {
     type: count
     drill_fields: []
+  }
+
+  measure: Total_queries {
+    type: count
+
+  }
+  measure: Total_sessions {
+    type: count
   }
 }

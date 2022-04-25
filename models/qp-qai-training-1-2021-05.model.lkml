@@ -11,3 +11,5 @@ datagroup: qp_qai_training_1_2021_05_default_datagroup {
 persist_with: qp_qai_training_1_2021_05_default_datagroup
 
 explore: dialogflow_cleaned_logs {}
+
+explore: session_level_query {}
