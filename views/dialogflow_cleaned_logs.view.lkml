@@ -231,6 +231,14 @@ view: dialogflow_cleaned_logs {
               ELSE NULL END;;
 
   }
+
+  dimension: call_duration{
+  sql: CASE WHEN time>60 ;;
+  }
+
+
+
+
   dimension: session_id {
     type: string
     sql: ${TABLE}.session_ID ;;
