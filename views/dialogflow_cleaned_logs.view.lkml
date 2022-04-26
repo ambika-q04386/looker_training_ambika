@@ -267,8 +267,8 @@ view: dialogflow_cleaned_logs {
 
   measure: Success_rate {
     type: number
-    sql: ${Handled}/ ${Total_queries}
-    value_format_name: percent_2 ;;
+    sql: ${Handled}/ ${Total_queries} ;;
+    value_format_name: percent_2
 
   }
 }
