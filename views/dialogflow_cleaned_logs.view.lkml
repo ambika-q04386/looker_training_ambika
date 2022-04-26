@@ -20,8 +20,153 @@ view: dialogflow_cleaned_logs {
     convert_tz: no
     datatype: date
     sql: ${TABLE}.date ;;
+
   }
 
+  dimension_group: time_stamp {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      hour_of_day,
+      year
+    ]
+    sql: ${TABLE}.time_stamp ;;
+  }
+  dimension: time_bucket {
+    type: string
+    case: {
+      when: {
+        sql: ${time_stamp_hour_of_day}=0 ;;
+        label: "12AM - 01AM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=1 ;;
+        label: "01AM - 02AM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=2 ;;
+        label: "02AM - 03AM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=3 ;;
+        label: "03AM - 04AM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=4 ;;
+        label: "04AM - 05AM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=5 ;;
+        label: "05AM - 06AM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=6 ;;
+        label: "06AM - 07AM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=7 ;;
+        label: "07AM - 08AM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=8 ;;
+        label: "08AM - 09AM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=9 ;;
+        label: "09AM - 10AM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=10 ;;
+        label: "10AM - 11AM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=11 ;;
+        label: "11AM - 12AM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=12 ;;
+        label: "12AM - 01PM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=13 ;;
+        label: "01PM - 02PM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=14 ;;
+        label: "02PM - 03PM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=15 ;;
+        label: "03PM - 04PM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=16 ;;
+        label: "04PM - 05PM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=17 ;;
+        label: "05PM - 06PM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=18 ;;
+        label: "06PM - 07PM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=19 ;;
+        label: "07PM - 08PM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=20 ;;
+        label: "0PM - 09PM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=21 ;;
+        label: "09PM - 10PM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=22 ;;
+        label: "10PM - 11PM"
+      }
+
+      when: {
+        sql: ${time_stamp_hour_of_day}=23 ;;
+        label: "11PM - 12PM"
+      }
+
+
+    }
+  }
+
+  dimension: hour {
+    type: string
+
+  }
   dimension: intent_detection_confidence {
     type: number
     sql: ${TABLE}.intent_detection_confidence ;;
@@ -37,15 +182,6 @@ view: dialogflow_cleaned_logs {
     sql: ${TABLE}.isFallback ;;
   }
 
-  measure: Handled {
-    type: count
-    filters: [is_fallback: "No"]
-  }
-  measure: Success_rate {
-    type: number
-    sql: ${Handled}/ ${Total_queries} ;;
-
-  }
 
   dimension: language_code {
     type: string
@@ -71,7 +207,6 @@ view: dialogflow_cleaned_logs {
     type: string
     sql: ${TABLE}.query_text ;;
   }
-
 
 
   dimension: query_text_redacted {
@@ -105,23 +240,7 @@ view: dialogflow_cleaned_logs {
     type: string
     sql: ${TABLE}.time ;;
   }
-  dimension: duration {
-    type: number
-    sql: timestamp_diff(${TABLE}.max_time_stamp,${TABLE}.min_time_stamp,minute) ;;
-  }
-  dimension_group: time_stamp {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.time_stamp ;;
-  }
+
 
   dimension: week_number {
     type: number
@@ -139,5 +258,17 @@ view: dialogflow_cleaned_logs {
   }
   measure: Total_sessions {
     type: count
+  }
+
+  measure: Handled {
+    type: count
+    filters: [is_fallback: "No"]
+  }
+
+  measure: Success_rate {
+    type: number
+    sql: ${Handled}/ ${Total_queries}
+    value_format_name: percent_2 ;;
+
   }
 }
