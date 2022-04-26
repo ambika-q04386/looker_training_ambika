@@ -260,6 +260,10 @@ view: dialogflow_cleaned_logs {
     type: count
   }
 
+  measure: Total_sessions_distinct {
+    type: count_distinct
+  }
+
   measure: Handled {
     type: count
     filters: [is_fallback: "No"]
