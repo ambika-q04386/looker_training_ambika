@@ -42,6 +42,12 @@ view: session_level_query {
     sql: ${TABLE}.session_minutes ;;
   }
 
+  measure: average_Session_duration {
+    type: average
+    sql:(${session_duration}/86400.0) ;;
+    value_format: "[mm]\" m \"ss\" s\""
+  }
+
   dimension_group: session_start {
     type: time
     timeframes: [
