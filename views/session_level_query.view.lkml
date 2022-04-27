@@ -42,6 +42,16 @@ view: session_level_query {
     sql: ${TABLE}.session_minutes ;;
   }
 
+  dimension: session_minutes_duration {
+    sql: CASE
+    WHEN ${session_duration}/86400.0 < 1 THEN '<1min'
+    WHEN ${session_duration}/86400.0 between 1 and 3 THEN '1-3min'
+    WHEN ${session_duration}/86400.0 between 3 and 5 THEN '3-5min'
+    WHEN ${session_duration}/86400.0 between 5 and 7 THEN '5-7min'
+     WHEN ${session_duration}/86400.0 >7 1 THEN '>7min'
+    ELSE NULL END;;
+    }
+
   measure: average_Session_duration {
     type: average
     sql:(${session_duration}/86400.0) ;;
@@ -62,6 +72,10 @@ view: session_level_query {
     sql: ${TABLE}.session_start ;;
   }
   measure: Total_sessions{
+    type: count
+  }
+
+  measure: Total_queries {
     type: count
   }
   measure: count {
