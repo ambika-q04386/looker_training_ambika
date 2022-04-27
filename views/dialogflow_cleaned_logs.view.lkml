@@ -35,7 +35,19 @@ view: dialogflow_cleaned_logs {
       year
     ]
     sql: ${TABLE}.time_stamp ;;
+
   }
+
+  dimension_group: time {
+    type: time
+    timeframes: [
+      raw,
+      time
+    ]
+    sql: TIME_TRUNC(${TABLE}.time, HOUR) ;;
+  }
+
+
   dimension: time_bucket {
     type: string
     case: {
