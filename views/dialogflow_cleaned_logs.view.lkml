@@ -1,6 +1,22 @@
 view: dialogflow_cleaned_logs {
-  sql_table_name: `looker_training_ambika.dialogflow_cleaned_logs`
-    ;;
+  sql_table_name: `looker_training_ambika.dialogflow_cleaned_logs` ;;
+
+  #derived_table: {
+  #  explore_source: dialogflow_cleaned_logs {
+  #    column: session_id {
+  #      field: dialogflow_cleaned_logs.session_id
+  #   }
+  #    column: timestamp {
+  #      field: dialogflow_cleaned_logs.time_stamp
+  #    }
+  #    derived_column: min_timestamp {
+  #      sql: min(timestamp) over (partition by session_id ;;
+  #    }
+  #    derived_column: max_timestamp {
+  #      sql: max(timestamp) over (partition by session_id ;;
+  #    }
+  #  }
+#  }
 
   dimension: action {
     type: string
@@ -242,6 +258,12 @@ view: dialogflow_cleaned_logs {
               WHEN ${magnitude} <= 3 and ${sentiment_score} between -1 and 1 THEN 'Neutral'
               ELSE NULL END;;
 
+  }
+
+
+  dimension: duration {
+    type: number
+    sql: timestamp_diff(${TABLE}.max_timestamp,${TABLE}.min_timestamp, second) ;;
   }
 
   dimension: call_duration{
