@@ -47,16 +47,12 @@ view: session_level_query {
   dimension: call_duration  {
     sql: CASE
     WHEN ${session_duration}  <60 THEN '<1min'
-    WHEN ${session_duration}  between >60 and <180 THEN '1-3min'
-    WHEN ${session_duration}  between >180 and <300 THEN '3-5min'
-    WHEN ${session_duration}  between >300 and <420 THEN '5-7min'
-    WHEN ${session_duration} >420 THEN '>7min'
+    WHEN ${session_duration}  between >=60 and  ${session_duration} <180 THEN '1-3min'
+    WHEN ${session_duration}  between >=180 and  ${session_duration} <300 THEN '3-5min'
+    WHEN ${session_duration}  between >=300 and  ${session_duration} <420 THEN '5-7min'
+    WHEN ${session_duration} >=420 THEN '>7min'
     ELSE NULL END;;
   }
-
-
-
-
 
   measure: average_Session_duration {
     type: average
