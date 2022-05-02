@@ -44,7 +44,7 @@ view: session_level_query {
 
 
 
-  dimension: call_duration  {
+  measure: call_duration  {
     sql: CASE
     WHEN ${session_duration}  <60 THEN '<1min'
     WHEN ${session_duration}  between >=60 and  ${session_duration} <180 THEN '1-3min'
