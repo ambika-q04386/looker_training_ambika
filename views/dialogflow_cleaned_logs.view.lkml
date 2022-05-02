@@ -252,6 +252,10 @@ view: dialogflow_cleaned_logs {
     sql: ${TABLE}.sentiment_score ;;
   }
 
+  measure: average_sentiment_score {
+    type: average
+
+  }
   dimension: Query_sentiment_distribution {
     sql: CASE WHEN ${magnitude} <= 3 and ${sentiment_score} between 0.25 and 1 THEN 'Partially Positive'
                WHEN ${magnitude} <= 3 and ${sentiment_score} between -1 and -0.25 THEN 'Partially Negative'
