@@ -81,10 +81,7 @@ dimension: deflection_rate {
   }
 }
 
-  measure: total_sessions {
-    type: count_distinct
-    sql: ${TABLE}.total_sessions ;;
-  }
+
 
   measure: count {
     type: count
