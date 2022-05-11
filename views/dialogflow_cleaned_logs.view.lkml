@@ -1,22 +1,6 @@
 view: dialogflow_cleaned_logs {
   sql_table_name: `looker_training_ambika.dialogflow_cleaned_logs` ;;
 
-  #derived_table: {
-  #  explore_source: dialogflow_cleaned_logs {
-  #    column: session_id {
-  #      field: dialogflow_cleaned_logs.session_id
-  #   }
-  #    column: timestamp {
-  #      field: dialogflow_cleaned_logs.time_stamp
-  #    }
-  #    derived_column: min_timestamp {
-  #      sql: min(timestamp) over (partition by session_id ;;
-  #    }
-  #    derived_column: max_timestamp {
-  #      sql: max(timestamp) over (partition by session_id ;;
-  #    }
-  #  }
-#  }
 
   dimension: action {
     type: string
@@ -63,6 +47,10 @@ view: dialogflow_cleaned_logs {
     sql: TIME_TRUNC(${TABLE}.time, HOUR) ;;
   }
 
+  dimension: time_stamp_new {
+    type: date_time
+    sql: ${TABLE}.time_stamp ;;
+  }
 
   dimension: time_bucket {
     type: string
@@ -254,8 +242,13 @@ view: dialogflow_cleaned_logs {
 
   measure: average_sentiment_score {
     type: average
-
+    sql: ${TABLE}.sentiment_score ;;
   }
+
+
+
+
+
   dimension: Query_sentiment_distribution {
     sql: CASE WHEN ${magnitude} <= 3 and ${sentiment_score} between 0.25 and 1 THEN 'Partially Positive'
                WHEN ${magnitude} <= 3 and ${sentiment_score} between -1 and -0.25 THEN 'Partially Negative'
@@ -268,10 +261,6 @@ view: dialogflow_cleaned_logs {
   dimension: duration {
     type: number
     sql: timestamp_diff(${TABLE}.max_timestamp,${TABLE}.min_timestamp, second) ;;
-  }
-
-  dimension: call_duration{
-  sql: CASE WHEN time>60 ;;
   }
 
 
@@ -307,7 +296,7 @@ view: dialogflow_cleaned_logs {
   }
 
   measure: Total_sessions_distinct {
-    type: count_distinct
+    type: count
   }
 
   measure: Handled {
@@ -320,5 +309,21 @@ view: dialogflow_cleaned_logs {
     sql: ${Handled}/ ${Total_queries} ;;
     value_format_name: percent_2
 
+  }
+
+  measure: agent_count {
+    type: sum
+    sql: case
+    when ${intent_triggered} like "LiveAgentTransfer" then 1
+    else 0
+    end;;
+  }
+
+  measure: fallback_count {
+    type: sum
+    sql: case
+    when ${is_fallback} is true then 1
+    else 0
+    end;;
   }
 }

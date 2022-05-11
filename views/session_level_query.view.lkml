@@ -83,9 +83,7 @@ view: session_level_query {
     type: count
   }
 
-  measure: Total_distinct_sessions{
-    type: count_distinct
-  }
+
 
   measure: Total_queries {
     type: count
