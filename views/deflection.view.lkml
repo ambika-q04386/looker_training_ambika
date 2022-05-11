@@ -80,4 +80,14 @@ dimension: deflection_rate {
     }
   }
 }
+
+  dimension: total_sessions {
+    type: number
+    sql: ${TABLE}.total_sessions ;;
+  }
+
+  measure: count {
+    type: count
+    drill_fields: []
+  }
 }
