@@ -43,6 +43,22 @@ view: session_level_query {
   }
 
 
+  dimension: sentiment_score {
+    type: number
+    sql: ${TABLE}.sentiment_score ;;
+  }
+
+  measure: avg_sentiment_score {
+    type: average
+    sql: ${TABLE}.sentiment_score ;;
+
+
+  }
+
+  measure: average_sentiment_score {
+    type: average
+    sql: ${TABLE}.sentiment_score ;;
+  }
 
   dimension: call_duration  {
     sql: CASE
