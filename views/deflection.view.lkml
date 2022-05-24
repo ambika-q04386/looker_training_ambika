@@ -12,7 +12,6 @@ view: deflection {
 
       }
       bind_all_filters: yes
-
     }
   }
 

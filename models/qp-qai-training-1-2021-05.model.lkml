@@ -11,24 +11,14 @@ datagroup: qp_qai_training_1_2021_05_default_datagroup {
 persist_with: qp_qai_training_1_2021_05_default_datagroup
 
 
-
-explore: deflection_new {}
-
 explore: dialogflow_cleaned_logs {
-  join: time_duration {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${dialogflow_cleaned_logs.session_id}=${time_duration.session_id} ;;
-  }
   join: deflection {
     type: left_outer
     relationship: many_to_one
-    sql_on: ${dialogflow_cleaned_logs.session_id}=${deflection.session_id} ;;
-  }
-
-  join: session_level_query {
-    type: left_outer
-    relationship: many_to_one
-    sql_on: ${dialogflow_cleaned_logs.session_id}=${time_duration.session_id};;
-  }
+    sql_on: ${dialogflow_cleaned_logs.session_id}=${deflection.session_id};;
 }
+}
+
+explore: session_level_query {}
+
+explore: intent_co_occurence {}
