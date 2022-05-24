@@ -26,4 +26,8 @@ dimension: parent_intent {
     type: string
     sql: ${TABLE}.child_intent ;;
   }
+  measure:frequency1 {
+    type: number
+    sql: ${TABLE}.frequency ;;
+  }
 }
