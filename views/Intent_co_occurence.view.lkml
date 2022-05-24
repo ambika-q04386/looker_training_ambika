@@ -27,7 +27,7 @@ dimension: parent_intent {
     sql: ${TABLE}.child_intent ;;
   }
   measure:frequency1 {
-    type: number
+    type: max
     sql: ${TABLE}.frequency ;;
   }
 }
