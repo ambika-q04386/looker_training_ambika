@@ -19,12 +19,12 @@ dimension:session_id {
 
 dimension: parent_intent {
   type: string
-  sql: ${TABLE}.intent_triggered ;;
+  sql: ${TABLE}.parent_intent ;;
 }
 
   dimension: child_intent {
     type: string
-    sql: ${TABLE}.intent_triggered ;;
+    sql: ${TABLE}.child_intent ;;
   }
 
 
