@@ -11,9 +11,9 @@ Group by t1.intent_triggered, t2.intent_triggered  ;;
 }
 
 
-dimension:session_id {
-  type: string
-  sql: ${TABLE}.session_id ;;
+dimension:frequency {
+  type: number
+  sql: ${TABLE}.frequency ;;
 }
 
 
@@ -26,16 +26,4 @@ dimension: parent_intent {
     type: string
     sql: ${TABLE}.child_intent ;;
   }
-
-
-measure: count {
-  type: count_distinct
-  sql: ${session_id} ;;
-}
-
-
-
-
-
-
 }
