@@ -4,9 +4,9 @@ derived_table: {
 
                      ,t2.intent_triggered as child_intent
                      ,count( distinct t2.session_ID) as frequency from
-                    (select * from    qp-qai-training-1-2021-05.looker_training_asha.dialogflow_cleaned_logs
+                    (select * from    qp-qai-training-1-2021-05.looker_training_ambika.dialogflow_cleaned_logs
             where {% condition date_filter %} TIMESTAMP(date) {% endcondition %}) t1
-            join  (select * from qp-qai-training-1-2021-05.looker_training_asha.dialogflow_cleaned_logs
+            join  (select * from qp-qai-training-1-2021-05.looker_training_ambika.dialogflow_cleaned_logs
             where {% condition date_filter %} TIMESTAMP(date) {% endcondition %}) t2
             ON          t1.session_ID=t2.session_ID and t1.intent_triggered != t2.intent_triggered
             group by  t1.intent_triggered

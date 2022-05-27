@@ -299,6 +299,15 @@ view: dialogflow_cleaned_logs {
     type: count
   }
 
+  measure: distinct_date {
+    type: count_distinct
+    sql: ${date_raw} ;;
+  }
+  measure: Avg_sessions_per_day {
+    type: number
+    sql: COALESCE(${Total_sessions_distinct}/NULLIF(${distinct_date},0),0) ;;
+  }
+
   measure: Handled {
     type: count
     filters: [is_fallback: "No"]
