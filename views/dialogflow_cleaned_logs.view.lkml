@@ -301,7 +301,7 @@ view: dialogflow_cleaned_logs {
 
  measure: distinct_session_id {
    type: count_distinct
-  sql: ${TABLE}.distinct_session_id ;;
+  sql: ${session_id} ;;
 
  }
   measure: distinct_date {
